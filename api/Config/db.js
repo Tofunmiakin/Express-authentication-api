@@ -4,7 +4,8 @@ const env = require('./index');
 const { MONGODB } = env;
 
 mongoose.connect(MONGODB.url, {
-  useNewUrlParser: true,
+  useNewUrlParser: "true",
+  useUnifiedTopology: "true",
 });
 
 const conn = mongoose.connection;

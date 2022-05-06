@@ -21,6 +21,8 @@ const env = require('./Config/index');
 
 const app = express();
 
+app.get('/', (req, res)=> { res.send('Ready to Serve!')})
+
 //SSR
 // app.use("^/$", (req, res, next) => {
 //   fs.readFile(path.resolve("./client/build/index.html"), "utf-8", (err, data) => {
@@ -56,7 +58,6 @@ app.use(passport.session());
 //ROUTES
 app.use('/auth', AuthRoute);
 
-const PORT = process.env.PORT || 5000
-app.listen(PORT, () => {
-  console.log(`app is running on port ${PORT}`);
+app.listen(process.env.PORT || 5000, () => {
+  console.log(`app is running on port ${process.env.PORT}`);
 });
