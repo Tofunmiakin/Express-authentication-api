@@ -3,7 +3,7 @@ const env = require('./index');
 
 const { MONGODB } = env;
 
-mongoose.connect(MONGODB.url, {
+mongoose.connect(process.env.MONGODB_URI || MONGODB.url, {
   useNewUrlParser: "true",
   useUnifiedTopology: "true",
 });
