@@ -6,7 +6,7 @@ const fs = require('fs');
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const bodyParser = require('body-parser');
-
+const cors = require('cors');
 const conn = require('./Config/db');
 
 const passport = require('passport');
@@ -44,11 +44,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(env.COOKIE_SECRET));
 
+app.use(cors({
+  origin:"http://localhost:3000",
+  credentials: true
+}))
+
 app.use(session({
   secret: env.SESSION_SECRET,
   saveUninitialized: true,
   cookie: { maxAge: 1000 * 60 * 60 * 24 * 2},
-  resave: false
+  resave: true
 }));
 
 //PASSPORT
@@ -58,6 +63,7 @@ app.use(passport.session());
 //ROUTES
 app.use('/auth', AuthRoute);
 
-app.listen(process.env.PORT || 5000, () => {
-  console.log(`app is running on port ${process.env.PORT}`);
+const PORT = process.env.PORT || 5000
+app.listen(PORT, () => {
+  console.log(`app is running on port ${PORT}`);
 });
