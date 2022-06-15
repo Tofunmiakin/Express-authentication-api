@@ -3,9 +3,9 @@ A user authentication API with Node.js (Express) and [Passport.js local strategy
 
 [Working link to the API](https://express-auth970.herokuapp.com/)
 
-##Documentation
+## Documentation
 
-###Registration
+### Registration
 - Endpoint -> https://express-auth970.herokuapp.com/auth/signup
 - Payload -> 
   ``` json
