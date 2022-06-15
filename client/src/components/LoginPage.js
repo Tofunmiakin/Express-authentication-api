@@ -22,7 +22,7 @@ export default function SignInPage() {
 				password: loginPassword
 			},
 			withCredentials: true,
-			url: "http://localhost:5000/auth/login"
+			url: "https://express-auth970.herokuapp.com/auth/login"
 		})
 			.then(response => {
 				if (response.status === 200) {

@@ -24,8 +24,7 @@ export default function SignUpPage() {
 				password: registerPassword
 			},
 			withCredentials: true,
-			url: "http://localhost:5000/auth/signup"
-			// url: "http://film-pilot.herokuapp.com/auth/signup"
+			url: "https://express-auth970.herokuapp.com/auth/signup"
 		})
 			.then(setIsLoggedIn(true))
 			.then(navigate('/home'));
