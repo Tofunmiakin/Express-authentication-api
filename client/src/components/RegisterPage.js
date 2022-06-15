@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Axios from "axios";
+import { useNavigate } from 'react-router';
 
-import '../containers/App.css'
+import { AppContext } from "../context";
+
+import '../style/App.css';
 
 export default function SignUpPage() {
-
 	const [registerUsername, setRegisterUsername] = useState("");
 	const [registerEmail, setRegisterEmail] = useState("");
 	const [registerPassword, setRegisterPassword] = useState("");
+	const { isLoggedIn, setIsLoggedIn } = useContext(AppContext);
+
+	const navigate = useNavigate();
 
 	const handleSubmit = (e) => {
-		e.preventDefault();
 		Axios({
 			method: "POST",
 			data: {
@@ -22,7 +26,9 @@ export default function SignUpPage() {
 			withCredentials: true,
 			url: "http://localhost:5000/auth/signup"
 			// url: "http://film-pilot.herokuapp.com/auth/signup"
-		}).then((res) => console.log(res));
+		})
+			.then(setIsLoggedIn(true))
+			.then(navigate('/home'));
 	}
 
 	return (
@@ -36,7 +42,7 @@ export default function SignUpPage() {
 						type="text"
 						name="first_name"
 						required
-						// value={registerUsername}
+						value={registerUsername}
 						onChange={e => setRegisterUsername(e.target.value)}
 					/>
 				</p>
@@ -46,7 +52,7 @@ export default function SignUpPage() {
 						type="email"
 						name="email"
 						required
-						// value={registerEmail}
+						value={registerEmail}
 						onChange={e => setRegisterEmail(e.target.value)}
 					/>
 				</p>
@@ -56,20 +62,26 @@ export default function SignUpPage() {
 						type="password"
 						name="password"
 						required
-						// value={registerPassword}
+						value={registerPassword}
 						onChange={e => setRegisterPassword(e.target.value)}
 					/>
 				</p>
 				<p>
-					<input type="checkbox" name="checkbox" id="checkbox" required /> <span>I agree all statements in <a href="https://google.com" target="_blank" rel="noopener noreferrer">terms of service</a></span>.
+					<input type="checkbox" name="checkbox" id="checkbox" required />
+					<span>
+						I agree all statements in
+						<a href="https://google.com" target="_blank" rel="noopener noreferrer">
+							terms of service
+						</a>
+					</span>.
 				</p>
 				<p>
 					<button id="sub_btn" type="submit">Register</button>
 				</p>
 			</form>
 			<footer>
-				<p><Link to="/">Back to Homepage</Link>.</p>
+				<p><Link to="/">Back to Homepage</Link></p>
 			</footer>
 		</div>
-	)	
+	);
 }

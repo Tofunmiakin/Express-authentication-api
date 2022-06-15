@@ -1,23 +1,48 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { AppContext } from "../context";
+import { useNavigate } from 'react-router';
+import Axios from 'axios';
 
-import '../containers/App.css'
+import '../style/App.css'
 
 export default function SignInPage() {
-	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
+	const [loginUsername, setLoginUsername] = useState('');
+	const [loginPassword, setLoginPassword] = useState('');
+	const { isLoggedIn, setIsLoggedIn } = useContext(AppContext);
+
+	const navigate = useNavigate();
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		Axios({
+			method: "POST",
+			data: {
+				username: loginUsername,
+				password: loginPassword
+			},
+			withCredentials: true,
+			url: "http://localhost:5000/auth/login"
+		})
+			.then(response => {
+				if (response.status === 200) {
+					setIsLoggedIn(true)
+					navigate('/home')
+				}
+			})
+	}
 
 	return (
 		<div className="sign-in m-5-auto">
 			<h2>Sign in to us</h2>
-			<form action="/home">
+			<form onSubmit={handleSubmit}>
 				<p>
 					<label>Username or email address</label><br />
 					<input
 						type="text"
 						required
-						value={username}
-						onChange={e => setUsername(e.target.value)}
+						value={loginUsername}
+						onChange={e => setLoginUsername(e.target.value)}
 					/>
 				</p>
 				<p>
@@ -28,8 +53,8 @@ export default function SignInPage() {
 						type="password"
 						name="password"
 						required
-						value={password}
-						onChange={e => setPassword(e.target.value)}
+						value={loginPassword}
+						onChange={e => setLoginPassword(e.target.value)}
 					/>
 				</p>
 				<p>

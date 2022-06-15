@@ -1,27 +1,39 @@
-import React from 'react'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import React, { useState, useMemo } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Axios } from 'axios';
 
-import LandingPage from '../components/LandingPage'
-import LoginPage from '../components/LoginPage'
-import RegisterPage from '../components/RegisterPage'
-import ForgetPasswordPage from '../components/ForgetPasswordPage'
-import HomePage from '../components/HomePage'
+import LandingPage from '../components/LandingPage';
+import LoginPage from '../components/LoginPage';
+import RegisterPage from '../components/RegisterPage';
+import ForgetPasswordPage from '../components/ForgetPasswordPage';
+import HomePage from '../components/HomePage';
 
-import './App.css'
+import '../style/App.css';
+
+import ProtectedRoutes from './protectedRoutes';
+import { AppContext } from '../context';
 
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const logInValue = useMemo(() => ({ isLoggedIn, setIsLoggedIn }), [isLoggedIn, setIsLoggedIn]);
+
   return (
-    <Router>
-      <Routes>
-        <Route exact path="/" element={<LandingPage/>} />
-        <Route path="/login" element={<LoginPage/>} />
-        <Route path="/register" element={<RegisterPage/>} />
-        <Route path="/forget-password" element={<ForgetPasswordPage/>} />
-        <Route path="/home" element={<HomePage/>} />
-      </Routes>
-      <Footer />
-    </Router>
-  )
+    <AppContext.Provider value={logInValue}>
+      <Router>
+        <Routes>
+          <Route exact path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/forget-password" element={<ForgetPasswordPage />} />
+          <Route element={<ProtectedRoutes />}>
+            <Route path="/home" element={<HomePage />} />
+          </Route>
+        </Routes>
+        <Footer />
+      </Router>
+    </AppContext.Provider>
+  );
 }
 
 const Footer = () => {

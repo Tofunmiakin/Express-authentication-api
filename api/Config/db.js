@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const env = require('./index');
 
 const { MONGODB } = env;
-// process.env.MONGODB_URI || 
+
 mongoose.connect(MONGODB.url, {
   useNewUrlParser: "true",
   useUnifiedTopology: "true",
