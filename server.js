@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(env.SESSION_SECRET));
 
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: "https://express-auth970.netlify.app",
   credentials: true
 }))
 
