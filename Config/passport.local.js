@@ -1,7 +1,7 @@
-const User = require('../Models/users.model');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const bcrypt = require('bcrypt');
+const User = require("../Models/users.model");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const bcrypt = require("bcrypt");
 
 //The serializeUser function stores a cookie containing the user's id inside the browser
 passport.serializeUser((user, done) => {
@@ -16,21 +16,22 @@ passport.deserializeUser((id, done) => {
   });
 });
 
-passport.use(new LocalStrategy((username, password, done) => {
-  User.findOne({ username: username }, (err, user) => {
-    if (err) throw err;
-    if (!user) return done(null, false, { message: 'Incorrect username.' });
-
-    bcrypt.compare(password, user.password, (err, res) => {
+passport.use(
+  new LocalStrategy((username, password, done) => {
+    User.findOne({ username: username }, (err, user) => {
       if (err) throw err;
-      if (res === true) {
-        return done(null, user);
-      }
-      else {
-        return done(null, false, { message: 'Incorrect password.' })
-      }
+      if (!user) return done(null, false, { message: "Incorrect username." });
+
+      bcrypt.compare(password, user.password, (err, res) => {
+        if (err) throw err;
+        if (res === true) {
+          return done(null, user);
+        } else {
+          return done(null, false, { message: "Incorrect password." });
+        }
+      });
     });
-  });
-}));
+  })
+);
 
 module.exports = passport;

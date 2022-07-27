@@ -3,13 +3,13 @@ import { Navigate, Outlet } from "react-router";
 import { AppContext } from "../context";
 
 const ProtectedRoutes = () => {
-  const { isLoggedIn, setIsLoggedIn } = useContext(AppContext);
+  const { userSession, setUserSesison } = useContext(AppContext);
 
   const useAuth = () => {
-    return isLoggedIn;
+    return userSession;
   };
   const isAuth = useAuth();
-  return isAuth ? <Outlet /> : <Navigate to='/' />;
-}
+  return isAuth ? <Outlet /> : <Navigate to="/" />;
+};
 
 export default ProtectedRoutes;
